@@ -11,3 +11,5 @@ declare module 'discord.js' {
     cooldowns: Collection<string, Collection<string, number>>;
   }
 }
+
+
