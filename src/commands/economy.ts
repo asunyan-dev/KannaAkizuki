@@ -242,5 +242,280 @@ export default {
             
             };
         }; // end of group bet
+
+
+        if(group === "earn") {
+
+            if(sub === "daily") {
+                const member = await interaction.guild!.members.fetch(interaction.user.id);
+                const userId = interaction.user.id;
+                const cooldown: number = cooldowns.getCooldown(userId, "daily");
+
+                if(cooldown > Date.now()) {
+                    return interaction.reply({
+                        content: `❌ You already claimed your daily KannaLuls. Try again <t:${Math.floor(cooldown / 1000)}:R>.`,
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                const luls: number = economy.getLuls(userId);
+
+                let amount: number;
+
+                if(member.premiumSince) {
+                    amount = Math.floor(Math.random() * 150 - 75 + 1) + 75;
+                } else {
+                    amount = Math.floor(Math.random() * 75 - 20 + 1) + 20;
+                };
+
+                
+
+                const embed = new EmbedBuilder()
+                    .setTitle("✅ Daily KannaLuls claimed")
+                    .setColor(0xfedfe1)
+                    .setTimestamp()
+                    .setDescription(`Today you earned ${amount.toLocaleString()} ${ids.emojis.kannalul}!`)
+                    .setThumbnail(member.displayAvatarURL({size: 512}));
+
+                await economy.addLuls(userId, amount);
+                await cooldowns.setCooldown(userId, "daily", ms("24 hours"));
+
+                return interaction.reply({embeds: [embed]});
+            };
+
+            if(sub === "sell") {
+                const luls: number = economy.getLuls(interaction.user.id);
+                const balance: number = economy.getBalance(interaction.user.id);
+
+                if(luls === 0) {
+                    return interaction.reply({
+                        content: "❌ You don't have any KannaLuls. Chat to earn some!",
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                let amount: number;
+
+                const member = await interaction.guild!.members.fetch(interaction.user.id)!;
+
+                if(member.premiumSince) {
+                    amount = Math.floor(200 * luls);
+                } else {
+                    amount = Math.floor(100 * luls);
+                };
+
+                await economy.resetLuls(interaction.user.id);
+                await economy.addBalance(interaction.user.id, amount);
+
+                const newBalance: number = balance + amount;
+
+                const embed = new EmbedBuilder()
+                    .setTitle("✅ Sold your KannaLuls")
+                    .setDescription(`**New balance:** JPY${newBalance.toLocaleString()}.`)
+                    .setColor(0xfedfe1)
+                    .setTimestamp();
+
+                return interaction.reply({embeds: [embed]});
+            }
+
+
+            if(sub === "work") {
+                const jobs = [
+                    "🔨 You banned scammers",
+                    "🗣 You discussed about server management",
+                    "💻 You set up a new bot",
+                    "☕ You made coffee for the boss",
+                    "📸 You reported a user breaking the rules",
+                    "🔊 You spent time in VC",
+                    "💭 You gave a suggestion",
+                    "🏆 You chatted a lot"
+                ];
+
+                const cooldown: number = cooldowns.getCooldown(interaction.user.id, "work");
+
+                const member = await interaction.guild!.members.fetch(interaction.user.id)!;
+
+                const userId = interaction.user.id;
+
+                if(cooldown > Date.now()) {
+                    return interaction.reply({
+                        content: `❌ You already worked! You can work again <t:${Math.floor(cooldown / 1000)}:R>.`,
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                const job: string = jobs[Math.floor(Math.random() * jobs.length)];
+
+                let reward: number;
+
+                if(member.premiumSince) {
+                    reward = Math.floor(Math.random() * 45 - 30 + 1) + 30;
+                } else {
+                    reward = Math.floor(Math.random() * 30 - 15 + 1) + 15;
+                };
+
+                await economy.addLuls(userId, reward);
+
+                const embed = new EmbedBuilder()
+                    .setTitle("✅ Good job!")
+                    .setDescription(
+                        `**${job} and you earned ${reward.toLocaleString()}** ${ids.emojis.kannalul} !`
+                    )
+                    .setColor(0xfedfe1)
+                    .setThumbnail(member.displayAvatarURL({size: 512}))
+                    .setFooter({text: "You can work again in 3 hours."})
+                    .setTimestamp();
+
+                await cooldowns.setCooldown(userId, "work", ms("3 hours"));
+
+                return interaction.reply({embeds: [embed]});
+            }
+        }; // end of group "earn"
+
+        if(group === "manage") {
+            if(!interaction.guild) return;
+            const member = await interaction.guild.members.fetch(interaction.user.id)!
+            if(!member.permissions.has(PermissionFlagsBits.Administrator)) {
+                return interaction.reply({
+                    content: "❌ This command is admin only.",
+                    flags: MessageFlags.Ephemeral
+                });
+            };
+
+            if(sub === "increase-balance") {
+                const user = interaction.options.getUser("user", true);
+                const amount = interaction.options.getInteger("amount", true);
+
+                if(user.id === interaction.user.id) {
+                    return interaction.reply({
+                        content: "❌ You can't increase your own balance, that's cheating.",
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                if(amount <= 0) {
+                    return interaction.reply({
+                        content: "❌ Amount must be greater than 0.",
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                const balance: number = economy.getBalance(user.id);
+
+                await economy.addBalance(user.id, amount);
+
+                const newBalance = balance + amount;
+
+                const embed = new EmbedBuilder()
+                    .setTitle("✅ Money given")
+                    .setDescription(`<@${user.id}>\n\n**Before:** JPY${balance.toLocaleString()}\n\n+ ${amount.toLocaleString()}\n\n**Now:** JPY${newBalance.toLocaleString()}`)
+                    .setColor(0xfedfe1)
+                    .setTimestamp();
+
+                return interaction.reply({embeds: [embed]});
+            };
+
+            if(sub === "tax") {
+                const allowedUsers = [
+                    ids.users.asuka,
+                    ids.users.kanna
+                ];
+
+                if(!allowedUsers.includes(interaction.user.id)) {
+                    return interaction.reply({
+                        content: "❌ You are not allowed to use this command.",
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                const user = interaction.options.getUser("user", true);
+                const amount = interaction.options.getInteger("amount", true);
+
+                if(amount <= 0) {
+                    return interaction.reply({
+                        content: "❌ Amount must be greater than 0.",
+                        flags: MessageFlags.Ephemeral
+                    });
+                };
+
+                const kannaBalance:number = economy.getBalance(ids.users.kanna);
+                const targetBalance: number = economy.getBalance(user.id);
+
+                const newKannaBalance = Math.floor(kannaBalance + amount);
+                const newTargetBalance = Math.floor(targetBalance + amount);
+
+                await economy.addBalance(ids.users.kanna, amount);
+                await economy.removeBalance(user.id, amount);
+
+                const kanna = await interaction.guild!.members.fetch(ids.users.kanna);
+                const target = await interaction.guild!.members.fetch(user.id);
+
+                const kannaEmbed = new EmbedBuilder()
+                    .setTitle(`${kanna.displayName}`)
+                    .setThumbnail(kanna.displayAvatarURL({size: 512}))
+                    .setColor("Green")
+                    .setDescription(`JPY${kannaBalance.toLocaleString()}\n\n+${amount.toLocaleString()}\n\n= JPY${newKannaBalance.toLocaleString()}`)
+                    .setTimestamp();
+                const targetEmbed = new EmbedBuilder()
+                    .setTitle(target.displayName)
+                    .setThumbnail(target.displayAvatarURL({size: 512}))
+                    .setDescription(`JPY${targetBalance.toLocaleString()}\n\n\- ${amount.toLocaleString()}\n\n= JPY${newTargetBalance.toLocaleString()}`)
+                    .setColor("Red")
+                    .setTimestamp();
+
+                return interaction.reply({
+                    embeds: [kannaEmbed, targetEmbed]
+                });
+            };
+
+        } // end of sub "manage";
+
+        if(sub ==="pay") {
+            const user = interaction.options.getUser("user", true);
+            const amount = interaction.options.getInteger("amount", true);
+
+            const target = await interaction.guild!.members.fetch(user.id)!
+            const member = await interaction.guild!.members.fetch(interaction.user.id)!
+
+            if(amount <= 0) {
+                return interaction.reply({
+                    content: "❌ Amount must be greater than 0.",
+                    flags: MessageFlags.Ephemeral
+                });
+            };
+
+            const memberBalance: number = economy.getBalance(interaction.user.id);
+            const targetBalance: number = economy.getBalance(user.id);
+
+            if(memberBalance < amount) {
+                return interaction.reply({
+                    content: "❌ You don't have enough money.",
+                    flags: MessageFlags.Ephemeral
+                });
+            };
+
+            const memberNewBalance = memberBalance - amount;
+            const targetNewBalance = targetBalance + amount;
+
+            await economy.addBalance(user.id, amount);
+            await economy.removeBalance(interaction.user.id, amount);
+
+
+            const memberEmbed = new EmbedBuilder()
+                .setTitle(member.displayName)
+                .setThumbnail(member.displayAvatarURL({size: 512}))
+                .setColor("Red")
+                .setDescription(`JPY${memberBalance.toLocaleString()}\n\n\- ${amount.toLocaleString()}\n\n= JPY${memberNewBalance.toLocaleString()}`)
+                .setTimestamp();
+
+            const targetEmbed = new EmbedBuilder()
+                .setTitle(target.displayName)
+                .setThumbnail(target.displayAvatarURL({size: 512}))
+                .setColor("Green")
+                .setDescription(`JPY${targetBalance.toLocaleString()}\n\n+ ${amount.toLocaleString()}\n\n= JPY${targetNewBalance.toLocaleString()}`)
+                .setTimestamp();
+
+            return interaction.reply({embeds: [memberEmbed, targetEmbed]});
+        }
     }
 }
