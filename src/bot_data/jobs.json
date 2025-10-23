@@ -1,0 +1,97 @@
+{
+  "service": [
+    { "name": "Janitor", "daily": 8000, "requiredReputation": 0 },
+    { "name": "Cleaner", "daily": 8500, "requiredReputation": 1 },
+    { "name": "Convenience Store Clerk", "daily": 9000, "requiredReputation": 2 },
+    { "name": "Retail Salesperson", "daily": 9500, "requiredReputation": 3 },
+    { "name": "Security Guard", "daily": 10000, "requiredReputation": 5 },
+    { "name": "Waiter", "daily": 10000, "requiredReputation": 5 },
+    { "name": "Hotel Staff", "daily": 11000, "requiredReputation": 10 },
+    { "name": "Delivery Courier", "daily": 11000, "requiredReputation": 10 },
+    { "name": "Receptionist", "daily": 11000, "requiredReputation": 12 },
+    { "name": "Postal Worker", "daily": 12000, "requiredReputation": 15 },
+    { "name": "Taxi Driver", "daily": 13000, "requiredReputation": 18 },
+    { "name": "Tour Guide", "daily": 12000, "requiredReputation": 20 },
+    { "name": "Bartender", "daily": 10000, "requiredReputation": 25 },
+    { "name": "Bus Driver", "daily": 11000, "requiredReputation": 30 },
+    { "name": "Hotel Manager", "daily": 23000, "requiredReputation": 80 }
+  ],
+  "skilled": [
+    { "name": "Farmer", "daily": 8000, "requiredReputation": 0 },
+    { "name": "Baker", "daily": 10000, "requiredReputation": 5 },
+    { "name": "Butcher", "daily": 12000, "requiredReputation": 10 },
+    { "name": "Carpenter", "daily": 14000, "requiredReputation": 20 },
+    { "name": "Painter", "daily": 13000, "requiredReputation": 18 },
+    { "name": "Plumber", "daily": 14000, "requiredReputation": 20 },
+    { "name": "Electrician", "daily": 15000, "requiredReputation": 25 },
+    { "name": "Mechanic", "daily": 14000, "requiredReputation": 20 },
+    { "name": "Tailor", "daily": 10000, "requiredReputation": 10 },
+    { "name": "Jewelry Maker", "daily": 13000, "requiredReputation": 18 },
+    { "name": "Hair Stylist", "daily": 11000, "requiredReputation": 25 },
+    { "name": "Makeup Artist", "daily": 13000, "requiredReputation": 30 },
+    { "name": "Chef", "daily": 15000, "requiredReputation": 25 },
+    { "name": "Sous Chef", "daily": 13000, "requiredReputation": 30 },
+    { "name": "Interior Designer", "daily": 23000, "requiredReputation": 55 }
+  ],
+  "technical": [
+    { "name": "IT Support Technician", "daily": 16000, "requiredReputation": 30 },
+    { "name": "Graphic Designer", "daily": 17000, "requiredReputation": 30 },
+    { "name": "Network Engineer", "daily": 24000, "requiredReputation": 45 },
+    { "name": "Software Engineer", "daily": 25000, "requiredReputation": 60 },
+    { "name": "Game Developer", "daily": 23000, "requiredReputation": 55 },
+    { "name": "Data Scientist", "daily": 30000, "requiredReputation": 80 },
+    { "name": "Product Designer", "daily": 24000, "requiredReputation": 45 }
+  ],
+  "professional": [
+    { "name": "Office Worker", "daily": 15000, "requiredReputation": 20 },
+    { "name": "Teacher", "daily": 18000, "requiredReputation": 35 },
+    { "name": "Accountant", "daily": 23000, "requiredReputation": 55 },
+    { "name": "Marketing Specialist", "daily": 22000, "requiredReputation": 50 },
+    { "name": "Sales Manager", "daily": 25000, "requiredReputation": 60 },
+    { "name": "Project Manager", "daily": 27000, "requiredReputation": 70 },
+    { "name": "Civil Engineer", "daily": 24000, "requiredReputation": 45 },
+    { "name": "Architect", "daily": 26000, "requiredReputation": 65 },
+    { "name": "Lawyer", "daily": 50000, "requiredReputation": 100 },
+    { "name": "Judge", "daily": 55000, "requiredReputation": 110 }
+  ],
+  "medical": [
+    { "name": "Nurse", "daily": 20000, "requiredReputation": 40 },
+    { "name": "Pharmacist", "daily": 30000, "requiredReputation": 75 },
+    { "name": "Dentist", "daily": 50000, "requiredReputation": 100 },
+    { "name": "Veterinarian", "daily": 40000, "requiredReputation": 90 },
+    { "name": "Doctor", "daily": 60000, "requiredReputation": 120 },
+    { "name": "Therapist", "daily": 22000, "requiredReputation": 50 },
+    { "name": "Psychologist", "daily": 28000, "requiredReputation": 70 },
+    { "name": "Paramedic", "daily": 18000, "requiredReputation": 35 }
+  ],
+  "entertainment": [
+    { "name": "Streamer", "daily": 12000, "requiredReputation": 15 },
+    { "name": "YouTuber", "daily": 15000, "requiredReputation": 25 },
+    { "name": "Voice Actor", "daily": 14000, "requiredReputation": 22 },
+    { "name": "Comedian", "daily": 17000, "requiredReputation": 28 },
+    { "name": "Actor", "daily": 20000, "requiredReputation": 40 },
+    { "name": "Singer", "daily": 20000, "requiredReputation": 40 },
+    { "name": "Model", "daily": 16000, "requiredReputation": 25 },
+    { "name": "Idol Performer", "daily": 15000, "requiredReputation": 26 },
+    { "name": "Host/Hostess (Club)", "daily": 25000, "requiredReputation": 60 },
+    { "name": "Photographer", "daily": 16000, "requiredReputation": 25 },
+    { "name": "Animator", "daily": 15000, "requiredReputation": 25 },
+    { "name": "Event Planner", "daily": 20000, "requiredReputation": 40 },
+    { "name": "Fashion Designer", "daily": 21000, "requiredReputation": 50 }
+  ],
+  "academic": [
+    { "name": "Librarian", "daily": 13000, "requiredReputation": 15 },
+    { "name": "Archivist", "daily": 14000, "requiredReputation": 20 },
+    { "name": "University Professor", "daily": 30000, "requiredReputation": 75 },
+    { "name": "Research Assistant", "daily": 16000, "requiredReputation": 30 },
+    { "name": "Research Scientist", "daily": 28000, "requiredReputation": 70 },
+    { "name": "Museum Curator", "daily": 17000, "requiredReputation": 25 }
+  ],
+  "publicSafety": [
+    { "name": "Police Officer", "daily": 20000, "requiredReputation": 40 },
+    { "name": "Firefighter", "daily": 19000, "requiredReputation": 35 },
+    { "name": "Judge", "daily": 55000, "requiredReputation": 110 },
+    { "name": "Pilot", "daily": 70000, "requiredReputation": 120 },
+    { "name": "Train Conductor", "daily": 14000, "requiredReputation": 18 }
+  ]
+}
