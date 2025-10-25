@@ -217,5 +217,95 @@ export default {
             return interaction.reply({content: "✅ Member unbanned.", flags: MessageFlags.Ephemeral});
         }; // end of sub unban
 
+
+        if(sub === "unmute") {
+            if(!member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
+                return interaction.reply({content: "❌ You can't unmute members.", flags: MessageFlags.Ephemeral});
+            };
+
+            if(!target.isCommunicationDisabled()) {
+                return interaction.reply({content: "❌ This member is not muted!", flags: MessageFlags.Ephemeral});
+            };
+
+            if(member.roles.highest.position <= target.roles.highest.position) {
+                return interaction.reply({content: "❌ You can't unmute someone with a higher role than you.", flags: MessageFlags.Ephemeral});
+            };
+
+            if(target.roles.highest.position >= me.roles.highest.position) {
+                return interaction.reply({content: "❌ I can't unmute someone with a higher role than me.", flags: MessageFlags.Ephemeral});
+            };
+
+            if(!target.moderatable) {
+                return interaction.reply({content: "❌ This member can't be unmuted.", flags: MessageFlags.Ephemeral});
+            };
+
+            await target.timeout(null, reason);
+
+            const logEmbed = new EmbedBuilder()
+                .setTitle("🗣 Member Unmuted")
+                .setDescription(`<@${target.id}>\n\n**Unmuted by:**\n<@${member.id}> | ID: ${member.id}\n\n**Reason:**\n${reason}`)
+                .setColor(0xfedfe1)
+                .setFooter({text: `User ID: ${target.id}`})
+                .setThumbnail(target.displayAvatarURL({size: 512}))
+                .setTimestamp();
+
+            await sendMessage(interaction.client, ids.channels.automod, {embeds: [logEmbed]});
+
+            try {
+                const embed = new EmbedBuilder()
+                    .setTitle("You were unmuted in Kanna's Sanctuary!")
+                    .setDescription(`Reason:\n${reason}`)
+                    .setColor(0xfedfe1)
+                    .setTimestamp();
+
+                await target.send({embeds: [embed]});
+                return interaction.reply({content: "✅ Member unmuted.", flags: MessageFlags.Ephemeral});
+            } catch (err) {
+                console.error(err);
+                return interaction.reply({content: "✅ Member unmuted. ❗ Failed to DM member, they have DMs closed.", flags: MessageFlags.Ephemeral});
+            };
+        }; // end of sub unmute;
+
+
+        if(sub === "warn") {
+            if(!member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
+                return interaction.reply({content: "❌ You can't warn members.", flags: MessageFlags.Ephemeral});
+            };
+
+            if(target.roles.highest.position >= member.roles.highest.position) {
+                return interaction.reply({content: "❌ You can't warn someone with a higher role than you.", flags: MessageFlags.Ephemeral});
+            };
+
+            if(target.roles.highest.position >= me.roles.highest.position) {
+                return interaction.reply({content: "❌ I can't warn someone with a higher role than me.", flags: MessageFlags.Ephemeral});
+            };
+
+            if(!target.moderatable) {
+                return interaction.reply({content: "❌ This member can't be warned.", flags: MessageFlags.Ephemeral});
+            };
+
+            try {
+                const embed = new EmbedBuilder()
+                    .setTitle("You were warned in Kanna's Sanctuary!")
+                    .setDescription(`**With reason:**\n${reason}`)
+                    .setColor(0xfedfe1)
+                    .setTimestamp();
+
+                const logEmbed = new EmbedBuilder()
+                    .setTitle("❗ Member warned")
+                    .setDescription(`<@${target.id}>\n\n**Warned by:**\n<@${member.id}> | ID: ${member.id}\n\n**Reason:**\n${reason}`)
+                    .setColor(0xfedfe1)
+                    .setThumbnail(target.displayAvatarURL({size: 512}))
+                    .setFooter({text: `User ID: ${target.id}`})
+                    .setTimestamp();
+
+                await target.send({embeds: [embed]});
+                await sendMessage(interaction.client, ids.channels.automod, {embeds: [logEmbed]});
+                return interaction.reply({content: "✅ Member warned.", flags: MessageFlags.Ephemeral});
+            } catch (err) {
+                console.error(err);
+                return interaction.reply({content: "❌ Failed to warn member, they have DMs closed. You should consider using another bot or warn them verbally.", flags: MessageFlags.Ephemeral});
+            };
+        } // end of sub warn;
     }
 }

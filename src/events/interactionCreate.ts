@@ -1,7 +1,6 @@
 import { Interaction, Collection, MessageFlags, Client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ContainerBuilder, SectionBuilder, TextDisplayBuilder, ThumbnailBuilder, SeparatorBuilder } from "discord.js";
 import ids from "../ids.json";
 import sendMessage from "../bot_modules/sendMessage"
-import rules from "../bot_modules/rules";
 import botLogs from "../bot_modules/botLogs";
 
 type Command = {
@@ -135,16 +134,7 @@ export default {
                 });
             };
 
-            if(interaction.customId === "rule") {
-                const title = interaction.fields.getTextInputValue("title");
-                const details = interaction.fields.getTextInputValue("details");
-
-                await rules.addRule(title, details);
-                return interaction.reply({
-                    content: "✅ Rule added.",
-                    flags: MessageFlags.Ephemeral
-                });
-            };
+            
 
             if(interaction.customId === "changelog") {
                 const version = interaction.fields.getTextInputValue("version");
