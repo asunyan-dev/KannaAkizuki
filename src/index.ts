@@ -3,6 +3,12 @@ import fs from "fs"
 import path from "path"
 import "dotenv/config"
 
+const dataDir = path.join(__dirname, "bot_data");
+if(!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, {recursive: true});
+    console.log("📂 Created folder bot_data");
+}
+
 
 const client = new Client({
     intents: [
