@@ -6,7 +6,6 @@ import { addRep, getRep } from "../bot_modules/reputation";
 export default {
     data: new SlashCommandBuilder()
         .setName("reputation").setDescription("Give a reputation point to another user")
-        .setContexts(InteractionContextType.Guild)
         .addUserOption(o => o.setName("user").setDescription("The user to give a rep point to").setRequired(true)),
 
     async execute(interaction: ChatInputCommandInteraction) {

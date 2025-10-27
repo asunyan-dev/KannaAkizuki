@@ -1,4 +1,4 @@
-import { Interaction, Collection, MessageFlags, Client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ContainerBuilder, SectionBuilder, TextDisplayBuilder, ThumbnailBuilder, SeparatorBuilder } from "discord.js";
+import { Interaction, Collection, MessageFlags, Client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ContainerBuilder, SectionBuilder, TextDisplayBuilder, ThumbnailBuilder, SeparatorBuilder, Events } from "discord.js";
 import ids from "../ids.json";
 import sendMessage from "../bot_modules/sendMessage"
 import botLogs from "../bot_modules/botLogs";
@@ -9,9 +9,9 @@ type Command = {
 };
 
 export default {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
 
-    async execute(interaction: Interaction, client: Client) {
+    async execute(interaction: Interaction, client: any) {
         if(interaction.isChatInputCommand()) {
             const command = client.commands.get(interaction.commandName);
             if(!command) return;
@@ -35,6 +35,8 @@ export default {
                     });
                 };
 
+            }
+
                 timestamps.set(interaction.user.id, now);
                 setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
@@ -54,7 +56,7 @@ export default {
                         })
                     }
                 }
-            }
+            
         };
 
 

@@ -1,11 +1,11 @@
-import { GuildMember, Client, EmbedBuilder } from "discord.js";
+import { GuildMember, Client, EmbedBuilder, Events } from "discord.js";
 import sendMessage from "../bot_modules/sendMessage";
 import ids from "../ids.json";
 
 export default {
-    name: "guildMemberRemove",
+    name: Events.GuildMemberRemove,
 
-    async execute(member: GuildMember, client: Client) {
+    async execute(member: GuildMember, client: any) {
         if(member.partial) {
             try {
                 await member.fetch()

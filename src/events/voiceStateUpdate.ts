@@ -1,11 +1,11 @@
-import { VoiceState, Client, EmbedBuilder } from "discord.js";
+import { VoiceState, Client, EmbedBuilder, Events } from "discord.js";
 import ids from "../ids.json";
 import sendMessage from "../bot_modules/sendMessage";
 
 export default {
-    name: "voiceStateUpdate",
+    name: Events.VoiceStateUpdate,
 
-    async execute(oldState: VoiceState, newState: VoiceState, client: Client) {
+    async execute(oldState: VoiceState, newState: VoiceState, client: any) {
 
         const member = newState.member;
         if(!member) return;

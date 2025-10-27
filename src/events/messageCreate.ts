@@ -1,4 +1,4 @@
-import { Message, EmbedBuilder, Client } from "discord.js"
+import { Message, EmbedBuilder, Client, Events } from "discord.js"
 import afk from "../bot_modules/afk"
 import economy from "../bot_modules/economy"
 import botLogs from "../bot_modules/botLogs"
@@ -11,9 +11,9 @@ import sendMessage from "../bot_modules/sendMessage"
 import ids from "../ids.json"
 
 export default {
-    name: "messageCreate",
+    name: Events.MessageCreate,
 
-    async execute(message: Message, client: Client) {
+    async execute(message: Message, client: any) {
         if(message.author.bot) return;
         if(!message.guild) return;
         if(!message.member) return;

@@ -6,9 +6,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName("fun")
         .setDescription("Fun commands.")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommandGroup(group => 
-            group.setName("interact")
+            group.setName("interact").setDescription("interact commands")
             .addSubcommand(sub => 
                 sub.setName("hug").setDescription("Hug a user")
                 .addUserOption(option => 

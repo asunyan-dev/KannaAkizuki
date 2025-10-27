@@ -4,7 +4,6 @@ import fetchURL from "../bot_modules/fetch";
 export default {
     data: new SlashCommandBuilder()
         .setName("translate").setDescription("Translate provided text")
-        .setContexts(InteractionContextType.Guild)
         .addStringOption(option => 
             option.setName("text").setDescription("Your text").setRequired(true)
         )

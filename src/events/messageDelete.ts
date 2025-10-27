@@ -1,13 +1,13 @@
-import { Message, Client, EmbedBuilder } from "discord.js"
+import { Message, Client, EmbedBuilder, Events } from "discord.js"
 import blocked from "../blocked.json"
 import ids from "../ids.json"
 import sendMessage from "../bot_modules/sendMessage"
 
 
 export default {
-    name: "messageDelete",
+    name: Events.MessageDelete,
 
-    async execute(message: Message, client: Client) {
+    async execute(message: Message, client: any) {
         if(message.partial) {
             try {
                 await message.fetch();

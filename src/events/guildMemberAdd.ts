@@ -1,13 +1,13 @@
-import { GuildMember, EmbedBuilder, Client } from "discord.js";
+import { GuildMember, EmbedBuilder, Client, Events } from "discord.js";
 import sendMessage from "../bot_modules/sendMessage";
 import ids from "../ids.json";
 import fs from "fs";
 import path from "path";
 
 export default {
-    name: "guildMemberAdd",
+    name: Events.GuildMemberAdd,
 
-    async execute(member: GuildMember, client: Client) {
+    async execute(member: GuildMember, client: any) {
 
         const user = await member.guild.members.fetch(member.id).catch(() => null);
 

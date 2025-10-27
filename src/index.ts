@@ -25,11 +25,11 @@ client.cooldowns = new Collection();
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs.existsSync(commandsPath) ? fs.readdirSync(commandsPath).filter(file => file.endsWith(".ts")) : [];
+const commandFiles = fs.existsSync(commandsPath) ? fs.readdirSync(commandsPath).filter(file => file.endsWith(".js")) : [];
 
 
 for (const file of commandFiles) {
-    const command = require(path.join(commandsPath, file));
+    const command = require(path.join(commandsPath, file)).default;
     if('data' in command && 'execute' in command) {
         client.commands.set(command.data.name, command);
     } else {
@@ -39,10 +39,11 @@ for (const file of commandFiles) {
 
 
 const eventsPath = path.join(__dirname, "events");
-const eventFiles = fs.existsSync(eventsPath) ? fs.readdirSync(eventsPath).filter(file => file.endsWith(".ts")) : [];
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith(".js"));
 
 for (const file of eventFiles) {
-    const event = require (path.join(eventsPath, file));
+    const event = require(path.join(eventsPath, file)).default;
+    console.log(`[DEBUG] Loaded event: ${event.name}`);
 
     if(event.once) {
         client.once(event.name, (...args) => event.execute(...args, client));

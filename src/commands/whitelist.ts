@@ -6,7 +6,6 @@ import { whitelist } from "../bot_modules/blacklist";
 export default {
     data: new SlashCommandBuilder()
         .setName("whitelist").setDescription("Whitelist a user by ID")
-        .setContexts(InteractionContextType.Guild)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option => option.setName("id").setDescription("ID of the user").setRequired(true)),
 

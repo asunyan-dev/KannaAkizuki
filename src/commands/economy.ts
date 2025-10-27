@@ -9,9 +9,8 @@ import ids from "../ids.json";
 export default {
     data: new SlashCommandBuilder()
         .setName("economy").setDescription("Economy Commands.")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommandGroup(group => 
-            group.setName("info")
+            group.setName("info").setDescription("economy info commands.")
             .addSubcommand(sub => 
                 sub.setName("account")
                 .setDescription("Get a user's economy data.")
@@ -50,7 +49,7 @@ export default {
             )
         )
         .addSubcommandGroup(group => 
-            group.setName("earn")
+            group.setName("earn").setDescription("earn money")
             .addSubcommand(sub => 
                 sub.setName("daily").setDescription("Get your daily KannaLuls")
             )
@@ -62,7 +61,7 @@ export default {
             )
         )
         .addSubcommandGroup(group => 
-            group.setName("manage")
+            group.setName("manage").setDescription("manage money")
             .addSubcommand(sub => 
                 sub.setName("increase-balance").setDescription("increase a user balance")
                 .addUserOption(option => 

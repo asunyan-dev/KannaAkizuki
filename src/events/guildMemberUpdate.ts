@@ -1,12 +1,12 @@
-import { GuildMember, Client, EmbedBuilder } from "discord.js";
+import { GuildMember, Client, EmbedBuilder, Events } from "discord.js";
 import customRole from "../bot_modules/customRole";
 import ids from "../ids.json";
 import sendMessage from "../bot_modules/sendMessage";
 
 export default {
-    name: "guildMemberUpdate",
+    name: Events.GuildMemberUpdate,
 
-    async execute(oldMember: GuildMember, newMember: GuildMember, client: Client) {
+    async execute(oldMember: GuildMember, newMember: GuildMember, client: any) {
         if(newMember.user.bot) return;
 
         const oldRoles = new Set(oldMember.roles.cache.keys());

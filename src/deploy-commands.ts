@@ -1,16 +1,19 @@
 import { REST, Routes } from 'discord.js'
 import fs from 'fs'
 import 'dotenv/config'
+import path from "path"
 
 const token = process.env.TOKEN!
 const guildId = process.env.GUILD_ID!
 const clientId = process.env.CLIENT_ID!
 
 const commands: any[] = [];
-const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".ts"));
+const commandsPath = path.join(__dirname, "commands")
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".ts"));
 
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath).default;
         commands.push(command.data.toJSON());
 }
 
@@ -29,4 +32,4 @@ const rest = new REST({version: "10"}).setToken(token);
     } catch (error) {
         console.error(error);
     }
-})
+})()

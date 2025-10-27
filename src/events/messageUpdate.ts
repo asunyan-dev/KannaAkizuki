@@ -1,12 +1,12 @@
-import { Message, Client, EmbedBuilder } from "discord.js";
+import { Message, Client, EmbedBuilder, Events } from "discord.js";
 import blocked from "../blocked.json"
 import ids from "../ids.json"
 import sendMessage from "../bot_modules/sendMessage";
 
 export default {
-    name: "messageUpdate",
+    name: Events.MessageUpdate,
 
-    async execute(oldMessage: Message, newMessage: Message, client: Client) {
+    async execute(oldMessage: Message, newMessage: Message, client: any) {
         if(newMessage.author.bot) return;
         if(newMessage.channel.isDMBased()) return;
 

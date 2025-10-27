@@ -3,7 +3,6 @@ import { ChatInputCommandInteraction, SlashCommandBuilder, InteractionContextTyp
 export default {
     data: new SlashCommandBuilder()
         .setName("management").setDescription("Management commands")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommand(sub => sub.setName("announce").setDescription("Make a new announcement")),
 
     async execute(interaction: ChatInputCommandInteraction) {

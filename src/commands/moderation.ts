@@ -6,7 +6,6 @@ import ids from "../ids.json"
 export default {
     data: new SlashCommandBuilder()
         .setName("moderation").setDescription("Moderation commands")
-        .setContexts(InteractionContextType.Guild)
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
         .addSubcommand(sub => sub.setName("ban").setDescription("Ban a user")
             .addUserOption(option => option.setName("user").setDescription("User to ban").setRequired(true))

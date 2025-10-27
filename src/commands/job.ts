@@ -10,7 +10,6 @@ import { getRep, addRep } from "../bot_modules/reputation";
 export default {
     data: new SlashCommandBuilder()
         .setName("job").setDescription("Job commands")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommand(sub => sub.setName("apply").setDescription("Apply for a job"))
         .addSubcommand(sub => sub.setName("see").setDescription("See your current job"))
         .addSubcommand(sub => sub.setName("quit").setDescription("Quit your job"))

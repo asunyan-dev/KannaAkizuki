@@ -6,7 +6,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName("info")
         .setDescription("Get info.")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommand(sub => 
             sub.setName("anime").setDescription("Get info about an anime")
             .addStringOption(option => 

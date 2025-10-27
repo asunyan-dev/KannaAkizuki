@@ -6,8 +6,7 @@ import ids from "../ids.json";
 export default {
     data: new SlashCommandBuilder()
         .setName("premium").setDescription("Premium commands.")
-        .setContexts(InteractionContextType.Guild)
-        .addSubcommandGroup(group => group.setName("role")
+        .addSubcommandGroup(group => group.setName("role").setDescription("Set, edit or remove your custom role.")
             .addSubcommand(sub => sub.setName("set").setDescription("Set up your custom role")
                 .addStringOption(option => option.setName("name").setDescription("Name of the role").setRequired(true))
                 .addStringOption(option => option.setName("color").setDescription("Color for the role, hex code. Must start with #").setRequired(true))

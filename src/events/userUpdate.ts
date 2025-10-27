@@ -1,11 +1,11 @@
-import { User, Client, EmbedBuilder } from "discord.js"
+import { User, Client, EmbedBuilder, Events } from "discord.js"
 import ids from "../ids.json"
 import sendMessage from "../bot_modules/sendMessage";
 
 export default {
-    name: "userUpdate",
+    name: Events.UserUpdate,
 
-    async execute(oldUser: User, newUser: User, client: Client) {
+    async execute(oldUser: User, newUser: User, client: any) {
         const member = await client.guilds.cache.get(ids.guilds.kannacord)!.members.fetch(newUser.id);
         if(!member) return;
         if(newUser.bot) return;

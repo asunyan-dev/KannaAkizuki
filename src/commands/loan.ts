@@ -6,7 +6,6 @@ import ms from "ms";
 export default {
     data: new SlashCommandBuilder()
         .setName("loan").setDescription("Commands related to loans")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommand(sub => sub.setName("apply").setDescription("Apply for a loan").addIntegerOption(option => 
             option.setName("amount").setDescription("The amount you apply for").setRequired(true)
             .addChoices(

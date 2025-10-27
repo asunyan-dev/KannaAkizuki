@@ -3,7 +3,7 @@ import ids from "../ids.json";
 
 export default {
     data: new SlashCommandBuilder()
-        .setName("changelog").setDescription("Push a new Changelog for the bot").setContexts(InteractionContextType.Guild).setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setName("changelog").setDescription("Push a new Changelog for the bot").setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction: ChatInputCommandInteraction) {
         if(interaction.user.id !== ids.users.asuka) {

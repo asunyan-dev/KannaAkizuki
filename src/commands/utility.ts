@@ -5,10 +5,9 @@ import afk from "../bot_modules/afk";
 export default {
     data: new SlashCommandBuilder()
         .setName("utility").setDescription("Utility Commands")
-        .setContexts(InteractionContextType.Guild)
         .addSubcommand(sub => sub.setName("afk").setDescription("Set your afk status").addStringOption(o => o.setName("message").setDescription("Message for your AFK status").setRequired(false)))
         .addSubcommand(sub => sub.setName("color").setDescription("Get info on a hex color").addStringOption(option => option.setName("color").setDescription("Hex color, e.g. #e410d3").setRequired(true)))
-        .addSubcommandGroup(group => group.setName("Avatar").addSubcommand(sub => sub.setName("main").setDescription("Get the main pfp").addUserOption(option => option.setName("user").setDescription("User to see pfp for").setRequired(true))).addSubcommand(sub => sub.setName("server").setDescription("Get the server pfp").addUserOption(option => option.setName("user").setDescription("user to see pfp for").setRequired(true))))
+        .addSubcommandGroup(group => group.setName("avatar").setDescription("avatar commands").addSubcommand(sub => sub.setName("main").setDescription("Get the main pfp").addUserOption(option => option.setName("user").setDescription("User to see pfp for").setRequired(true))).addSubcommand(sub => sub.setName("server").setDescription("Get the server pfp").addUserOption(option => option.setName("user").setDescription("user to see pfp for").setRequired(true))))
         .addSubcommand(sub => sub.setName("ping").setDescription("See the bot's latency"))
         .addSubcommand(sub => sub.setName("report").setDescription("Report a user to admins"))
         .addSubcommand(sub => sub.setName("suggest").setDescription("Make a new suggestion"))
