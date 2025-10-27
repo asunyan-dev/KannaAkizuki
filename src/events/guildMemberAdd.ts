@@ -1,11 +1,25 @@
 import { GuildMember, EmbedBuilder, Client } from "discord.js";
 import sendMessage from "../bot_modules/sendMessage";
 import ids from "../ids.json";
+import fs from "fs";
+import path from "path";
 
 export default {
     name: "guildMemberAdd",
 
     async execute(member: GuildMember, client: Client) {
+
+        const user = await member.guild.members.fetch(member.id).catch(() => null);
+
+        if(!user) return;
+
+        const file = path.join(__dirname, "../bot_data/blacklist.json");
+
+        const blacklist = JSON.parse(fs.readFileSync(file, "utf8"));
+
+        if(blacklist[user.id] === true) {
+            await member.ban({reason: "blacklist"});
+        };
 
         const generalEmbed = new EmbedBuilder()
             .setTitle(`Welcome to Kanna's Sanctuary, ${member.displayName}!`)

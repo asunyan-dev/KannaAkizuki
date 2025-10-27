@@ -1,0 +1,20 @@
+{
+  "logs": [
+    {
+      "version": "2.0.0",
+      "details": "**→** Reworked all commands. Removed unnecessary ones, added new ones.\n**→** Added server logs system.\n**→** Migrated from Embeds to Message Components v2."
+    },
+    {
+      "version": "2.0.1",
+      "details": "**→** Fixed logging system logging stuff that wasn't supposed to be logged on bot restart.\n**→** Added logging for username change, and main pfp change."
+    },
+    {
+      "version": "2.0.2",
+      "details": "**→** Fixed logs again. Excluded bots from member and message events."
+    },
+    {
+      "version": "2.1.0",
+      "details": "**→** Improved logs. (Added user ID to every log, for example)\n**→** Added Voice Logs.\n**→** Updated Dev-only command `/rules` to fix some errors found.\n**→** Updated `/sell`, typo was found."
+    }
+  ]
+}
