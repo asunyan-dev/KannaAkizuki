@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder, ColorResolvable } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, InteractionContextType, MessageFlags, EmbedBuilder, ColorResolvable, ModalBuilder, ComponentType, TextInputStyle } from "discord.js";
 import customRole from "../bot_modules/customRole";
 import ids from "../ids.json";
 
@@ -18,7 +18,8 @@ export default {
                 .addAttachmentOption(o => o.setName("icon").setDescription("New icon for the role").setRequired(false))
             )
             .addSubcommand(sub => sub.setName("remove").setDescription("Delete your custom role"))
-        ),
+        )
+        .addSubcommand(sub => sub.setName("introduction").setDescription("Make your introduction")),
 
     async execute(interaction: ChatInputCommandInteraction) {
         if(!interaction.guild) return;
@@ -28,6 +29,10 @@ export default {
         const member = await interaction.guild.members.fetch(interaction.user.id).catch(() => null);
 
         if(!member) return;
+
+        if(!member.premiumSince) {
+            return interaction.reply({content: "❌ This command is for boosters. If you want to use it, please consider boosting the server!"})
+        }
 
         if(group === "role") {
             const formats = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
@@ -105,6 +110,73 @@ export default {
                 await customRole.removeRole(member.id);
                 return interaction.reply({content: "✅ Role removed."});
             }
+        };
+
+        if(sub === "introduction") {
+
+            const modal = new ModalBuilder()
+                .setCustomId("introduction")
+                .setTitle("Introduction")
+                .addLabelComponents(
+                    {
+                        type: ComponentType.Label,
+                        label: "About you!",
+                        description: "Tell us a bit about yourself",
+                        component: {
+                            type: ComponentType.TextInput,
+                            custom_id: "bio",
+                            style: TextInputStyle.Paragraph,
+                            placeholder: "Type a short intro here...",
+                            required: true
+                        }
+                    },
+                    {
+                        type: ComponentType.Label,
+                        label: "Birthday",
+                        component: {
+                            type: ComponentType.TextInput,
+                            custom_id: "birthday",
+                            style: TextInputStyle.Short,
+                            placeholder: "Type your birthday here...",
+                            required: false
+                        }
+                    },
+                    {
+                        type: ComponentType.Label,
+                        label: "Country",
+                        component: {
+                            type: ComponentType.TextInput,
+                            custom_id: "country",
+                            placeholder: "Where are you from?",
+                            style: TextInputStyle.Short,
+                            required: false
+                        }
+                    },
+                    {
+                        type: ComponentType.Label,
+                        label: "Favorite Game",
+                        component: {
+                            type: ComponentType.TextInput,
+                            style: TextInputStyle.Short,
+                            custom_id: "game",
+                            placeholder: "What's your favorite game?",
+                            required: false
+                        }
+                    },
+                    {
+                        type: ComponentType.Label,
+                        label: "Favorite Anime",
+                        component: {
+                            type: ComponentType.TextInput,
+                            style: TextInputStyle.Short,
+                            custom_id: "anime",
+                            placeholder: "What's your favorite anime?",
+                            required: false
+                        }
+                    }
+                );
+
+            await interaction.showModal(modal);
         }
     }
 }

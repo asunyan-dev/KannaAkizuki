@@ -1,4 +1,4 @@
-import { Interaction, Collection, MessageFlags, Client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ContainerBuilder, SectionBuilder, TextDisplayBuilder, ThumbnailBuilder, SeparatorBuilder, Events } from "discord.js";
+import { Interaction, Collection, MessageFlags, Client, SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, ContainerBuilder, SectionBuilder, TextDisplayBuilder, ThumbnailBuilder, SeparatorBuilder, Events, User } from "discord.js";
 import ids from "../ids.json";
 import sendMessage from "../bot_modules/sendMessage"
 import botLogs from "../bot_modules/botLogs";
@@ -171,6 +171,29 @@ export default {
                     content: "✅ Announce sent!",
                     flags: MessageFlags.Ephemeral
                 })
+            };
+
+            if(interaction.customId === "introduction") {
+                const bio = interaction.fields.getTextInputValue("bio");
+                const birthday = interaction.fields.getTextInputValue("birthday");
+                const country = interaction.fields.getTextInputValue("country");
+                const game = interaction.fields.getTextInputValue("game");
+                const anime = interaction.fields.getTextInputValue("anime");
+
+                let member = await interaction.guild!.members.fetch(interaction.user.id)!;
+                
+                let embed = new EmbedBuilder()
+                    .setTitle(`${member.displayName} - About me!`)
+                    .setThumbnail(member.displayAvatarURL({size: 512}))
+                    .setDescription(bio)
+                    .setColor(0xfedfe1);
+
+                if(birthday) embed.addFields({name: "Birthday", value: birthday, inline: false});
+                if(country) embed.addFields({name: "Country", value: country, inline: false});
+                if(game) embed.addFields({name: "Favorite game", value: game, inline: false});
+                if(anime) embed.addFields({name: "Favorite Anime", value: anime, inline: false});
+
+                return interaction.reply({embeds: [embed]});
             }
         }
     }
