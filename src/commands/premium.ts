@@ -19,7 +19,8 @@ export default {
             )
             .addSubcommand(sub => sub.setName("remove").setDescription("Delete your custom role"))
         )
-        .addSubcommand(sub => sub.setName("introduction").setDescription("Make your introduction")),
+        .addSubcommand(sub => sub.setName("introduction").setDescription("Make your introduction"))
+        .addSubcommand(sub => sub.setName("say").setDescription("Make the bot say something").addStringOption(option => option.setName("message").setDescription("The message").setRequired(true))),
 
     async execute(interaction: ChatInputCommandInteraction) {
         if(!interaction.guild) return;
@@ -31,7 +32,7 @@ export default {
         if(!member) return;
 
         if(!member.premiumSince) {
-            return interaction.reply({content: "❌ This command is for boosters. If you want to use it, please consider boosting the server!"})
+            return interaction.reply({content: "❌ This command is for boosters. If you want to use it, please consider boosting the server!", flags: MessageFlags.Ephemeral})
         }
 
         if(group === "role") {
@@ -177,6 +178,16 @@ export default {
                 );
 
             await interaction.showModal(modal);
+        };
+
+        if(sub === "say") {
+            const message = interaction.options.getString("message", true);
+
+            if(!interaction.channel) return;
+            if(interaction.channel.isDMBased() || !interaction.channel.isSendable()) return;
+
+            await interaction.channel.send(message);
+            return interaction.reply({content: "Message sent.", flags: MessageFlags.Ephemeral});
         }
     }
 }
